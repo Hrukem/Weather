@@ -1,0 +1,19 @@
+# syntax = docker/dockerfile:1.0-experimental
+FROM elixir:1.10 as build
+
+WORKDIR /opt/app
+
+RUN mix local.rebar --force
+RUN mix local.hex --force
+
+RUN mix deps.compile --force
+
+# From this line onwards, we're in a new image, which will be the image used in production
+FROM elixir:1.10
+ENV REPLACE_OS_VARS=true
+
+WORKDIR /opt/app
+
+COPY --from=build /opt/release/weither .
+
+CMD ["./bin/weither", "start"] 
