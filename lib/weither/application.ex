@@ -16,9 +16,10 @@ defmodule Weither.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Weither.PubSub},
       # Start the Endpoint (http/https)
-      WeitherWeb.Endpoint
+      WeitherWeb.Endpoint,
       # Start a worker by calling: Weither.Worker.start_link(arg)
       # {Weither.Worker, arg}
+      Weither.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

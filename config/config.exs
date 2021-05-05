@@ -18,6 +18,12 @@ config :weither, WeitherWeb.Endpoint,
   pubsub_server: Weither.PubSub,
   live_view: [signing_salt: "gDf9iV5k"]
 
+# Configures Quantum
+config :weither, Weither.Scheduler,
+  jobs: [
+    {"* */3 * * *", fn -> Weither.HTTPRequest.request_current() end}
+  ]
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

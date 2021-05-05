@@ -18,6 +18,7 @@ defmodule WeitherWeb.Router do
 
     get "/", PageController, :index
     get "/weather", GetWeatherController, :get
+    get "/request", RequestController, :index
   end
 
   # Other scopes may use custom stacks.
