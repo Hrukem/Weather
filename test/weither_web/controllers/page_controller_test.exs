@@ -3,7 +3,7 @@ defmodule WeitherWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
-    assert html_response(conn, 200) =~ "Welcome to Phoenix!"
+    assert html_response(conn, 200) =~ "Сайт для ознакомления с погодой в Электростали"
   end
 
   test "weather", %{conn: conn} do
