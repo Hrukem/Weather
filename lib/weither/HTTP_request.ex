@@ -5,9 +5,9 @@ defmodule Weither.HTTPRequest do
   запрашивает погоду которая была num дней назад от сегодняшней даты
   """
   def request_history(num) do
-    day_request = time_unix(num) |> to_string()
+    day_request1 = time_unix(num) |> to_string()
     
-    request = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=55.784445&lon=38.444849&dt="<>day_request<>"&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
+    request = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=55.784445&lon=38.444849&dt="<>day_request1<>"&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
 
     answer = HTTPoison.get! request
     history_weather = Jason.decode!(answer.body)
