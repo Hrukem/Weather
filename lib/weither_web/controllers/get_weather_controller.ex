@@ -21,6 +21,7 @@ defmodule WeitherWeb.GetWeatherController do
 
         "current" ->
           Weither.Api.get(:current)
+          
       end
 
     render(conn, "weather.html", answer: answer)

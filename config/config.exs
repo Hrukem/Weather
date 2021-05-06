@@ -21,7 +21,7 @@ config :weither, WeitherWeb.Endpoint,
 # Configures Quantum
 config :weither, Weither.Scheduler,
   jobs: [
-    {"* */3 * * *", fn -> Weither.HTTPRequest.request_current() end}
+    {"0 */3 * * *", fn -> Weither.HTTPRequest.request_current() end}
   ]
 
 # Configures Elixir's Logger
