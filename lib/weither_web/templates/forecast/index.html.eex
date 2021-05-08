@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h3> Прогноз погоды в Электростали </h3> <br>
+    <h4> выберите на какой день от сегодняшней даты Вы хотите узнать погоду </h4>
+   <%= form_for @conn, Routes.forecast_path(@conn, :show), fn f -> %>  
+   <%= select(f, :num_day, 1..7) %>
+   <p>
+      <button type="submit" disabled style="display: none" ></button>
+      <%= submit("Show weather") %>
+   </p>
+
+   <% end %>
+
+   <%= button("Back", to: "/", method: :get) %>
+
+  </body>
+</html>
+
+

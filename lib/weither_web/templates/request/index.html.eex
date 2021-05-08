@@ -1,9 +1,0 @@
-<!DOCTYPE html>
-<html>
-  <body>
-    <h4> История погоды в Электростали </h4>
-    <%= form_for @conn, Routes.request_path(@conn, :index), fn f -> %>
-    <%= date_select(f, :historydate, year: [options: 2020..2021]) %>
-    <%= end %>
-  </body>
-</html>

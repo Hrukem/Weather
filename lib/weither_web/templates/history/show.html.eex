@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html>
+  <body>
+    <h2>Температура в Электростали</h2>
+    <%= for weather <- @selectivly_data do %>
+      температура:    <%= weather.temp %> <br>
+      влажность:      <%= weather.humidity %> <br>
+      давление:       <%= weather.pressure %> <br>
+      скорость ветра: <%= weather.wind_speed %> <br> <br> 
+    <% end %>
+
+    <%= button("Back", to: "/history", method: :get) %>
+  </body>
+</html>

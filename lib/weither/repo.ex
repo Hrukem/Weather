@@ -8,7 +8,7 @@ defmodule Weither.Repo do
   import Ecto.Query, warn: false
 
   schema "weathers" do
-    field :date, :integer
+    field :date, :string
     field :humidity, :integer
     field :pressure, :integer
     field :temp, :float
@@ -29,9 +29,19 @@ defmodule Weither.Repo do
   end
 
   def insert_data(attrs \\ %{}) do
-    %{}
+    %Weither.Repo{}
     |> changeset(attrs)
     |> insert()
+  end
+
+  def get_data(date) do
+    query = 
+      from(
+        Weither.Repo,
+        where: [date: ^date],
+        select: [:temp, :pressure, :humidity, :wind_speed]
+      )
+    all(query)
   end
 
 end

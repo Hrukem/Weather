@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h3> Прогноз погоды в Электростали </h3> <br>
+
+    <%= button("Back", to: "/forecast", method: :get) %>
+
+  </body>
+</html>

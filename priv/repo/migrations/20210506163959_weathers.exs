@@ -1,12 +1,12 @@
-defmodule Weither.Repo.Migrations.CreateWeathers do
+defmodule Weither.Repo.Migrations.Weathers do
   use Ecto.Migration
 
   def change do
     create table(:weathers) do
-      add :date, :integer
-      add :temp, :float
+      add :date, :string
       add :humidity, :integer
       add :pressure, :integer
+      add :temp, :float
       add :wind_speed, :integer
 
       timestamps()
