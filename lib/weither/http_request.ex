@@ -2,6 +2,7 @@ defmodule Weither.HttpRequest do
 
   @sec_day 86400
   @status_code 200
+  @pa_mmrs 0.750062
 
   @doc """
   запрашивает погоду которая была num дней назад от сегодняшней даты
@@ -56,19 +57,19 @@ defmodule Weither.HttpRequest do
         "wind_speed" => wind_speed
       } = current["current"]
 
-      date = DateTime.from_unix!(date) |> DateTime.to_date() |> Kernel.to_string()
-      pressure = round(pressure / 1.333224)
+      time_answer = DateTime.from_unix!(date) |> DateTime.to_naive()
+      pressure = round(pressure * @pa_mmrs)
 
       weather_current = 
         %{
-          "date" => date,
+          "time_answer" => time_answer,
           "temp" => temp, 
           "humidity" => humidity, 
           "pressure" => pressure,
           "wind_speed" => wind_speed
         }
 
-      case Weither.Repo.insert_data(weather_current) do
+      case Weither.Data.create_data(weather_current) do
         {:ok, _x} ->
           "data in base"
         {:error, _risen} ->

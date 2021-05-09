@@ -3,7 +3,7 @@ defmodule Weither.Repo.Migrations.Weathers do
 
   def change do
     create table(:weathers) do
-      add :date, :string
+      add :time_answer, :naive_datetime
       add :humidity, :integer
       add :pressure, :integer
       add :temp, :float
