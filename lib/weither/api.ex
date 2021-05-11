@@ -2,7 +2,7 @@ defmodule Weither.Api do
   require Logger
 
   @doc """
-  показывает температуру которая бвла 'num' дней назад от сегодняшней даты
+  возвращает данные о погоде за переданный период из базы данных
   """
   def get(:history, date) do
     Weither.HttpRequest.request_history(date)
@@ -12,13 +12,13 @@ defmodule Weither.Api do
   возвращает прогноз погоды на 'num'-ный день от сегодняшней даты
   """
   def get(:forecast, num) do
-    if num in 0..7 do
-      Weither.HttpRequest.request_forecast(num)
-    else 
-      "Error. The num in the request must be less than or equal to 7"
-    end
+    Weither.HttpRequest.request_forecast(num)
   end
 
+  @doc """
+  запрашивает данные о погоде на стороннем сайте на момент запроса,
+  полученные данные помещает в базу данных
+  """
   def get(:current) do
     case Weither.HttpRequest.request_current() do
       {:ok, _x} -> :ok

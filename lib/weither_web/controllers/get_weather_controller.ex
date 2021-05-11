@@ -1,7 +1,5 @@
 defmodule WeitherWeb.GetWeatherController do
   use WeitherWeb, :controller
-  #import Plug.Conn, only: [send_resp: 3]
-
 
   @doc """
   определяем тип запроса: история, прогноз

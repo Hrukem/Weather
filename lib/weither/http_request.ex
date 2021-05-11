@@ -1,10 +1,12 @@
 defmodule Weither.HttpRequest do
 
   @pa_mmrs 0.750062
+  @request  "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
 
   @doc """
-  запрашивает погоду которая была num дней назад от сегодняшней даты
+  запрашивает погоду из архива на сервере
   """
+  @spec request_history(String.t()) :: list
   def request_history(date) do
     Weither.Data.get_data(date) 
     |> Enum.map(fn x -> Map.take(x, [:humidity, :pressure, :temp, :wind_speed]) end)
@@ -13,10 +15,10 @@ defmodule Weither.HttpRequest do
   @doc """
   запрашивает прогноз погоды на num-ый день от сегодняшней даты
   """
+  @spec request_forecast(integer) :: map | {atom, integer} | {atom, atom}
   def request_forecast(num) do
-    request = "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely,current&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
 
-    case HTTPoison.get request do
+    case HTTPoison.get @request do
       {:ok, answer_map} ->
         case answer_map.status_code do
           200 ->
@@ -35,10 +37,10 @@ defmodule Weither.HttpRequest do
   @doc """
   запрашивает прогноз погоды на текущий день
   """
+  @spec request_current() :: {atom, atom} | {atom, integer}
   def request_current() do
-    request = "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely,daily&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
 
-    case HTTPoison.get request do
+    case HTTPoison.get @request do
       {:ok, answer_map} ->
         case answer_map.status_code do
           200 ->
