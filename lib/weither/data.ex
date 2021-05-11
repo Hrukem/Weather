@@ -18,7 +18,7 @@ defmodule Weither.Data do
      query = 
        from(
          Weither.Weither.Weather,
-         where: [date: ^date],
+         where: [time_answer: ^date],
          select: [:temp, :pressure, :humidity, :wind_speed]
        )
      Weither.Repo.all(query)

@@ -13,11 +13,9 @@ defmodule WeitherWeb.HistoryController do
 
     request_repo = (year <> "-" <> month <> "-" <> day)
 
-    all_data = Weither.Data.get_data(request_repo)
+    answer = Weither.Data.get_data(request_repo)
 
-    selectivly_data = Enum.map(all_data, fn x -> Map.take(x, [:humidity, :pressure, :temp, :wind_speed]) end)
-
-    render(conn, "show.html", selectivly_data: selectivly_data)
+    render(conn, "show.html", selectivly_data: answer)
   end
 
 end

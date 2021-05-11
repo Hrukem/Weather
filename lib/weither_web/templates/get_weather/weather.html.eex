@@ -3,5 +3,4 @@
   <p>Peace of mind from prototype to production</p>
 </section>
 <h1> Температура воздуха в Электростали </h1>
-<h3> <%= @answer %> </h3>
 

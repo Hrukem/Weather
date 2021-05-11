@@ -2,6 +2,7 @@ defmodule WeitherWeb.Router do
   use WeitherWeb, :router
 
   pipeline :browser do
+    plug :check_query_params
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_flash
@@ -16,12 +17,12 @@ defmodule WeitherWeb.Router do
   scope "/", WeitherWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    get "/weather", GetWeatherController, :get
-    get "/history", HistoryController, :index
-    post "/history", HistoryController, :show
-    get "/forecast", ForecastController, :index
-    post "/forecast", ForecastController, :show
+    get  "/",         PageController,       :index
+    get  "/weather",  GetWeatherController, :get
+    get  "/history",  HistoryController,    :index
+    post "/history",  HistoryController,    :show
+    get  "/forecast", ForecastController,   :index
+    post "/forecast", ForecastController,   :show
   end
 
   # Other scopes may use custom stacks.
@@ -42,6 +43,19 @@ defmodule WeitherWeb.Router do
     scope "/" do
       pipe_through :browser
       live_dashboard "/dashboard", metrics: WeitherWeb.Telemetry
+    end
+  end
+
+  defp check_query_params(conn, _params) do
+
+    with true <- !Map.equal?(conn.query_params, %{}),
+         true <- Enum.count(conn.query_params) == 2,
+         true <- Map.has_key?(conn.query_params, "type"),
+         true <- Map.has_key?(conn.query_params, "num") do
+      conn
+    else 
+      false -> 
+        send_resp(conn, 200, "bad request") |> halt()
     end
   end
 end

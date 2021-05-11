@@ -1,29 +1,37 @@
 defmodule WeitherWeb.GetWeatherController do
   use WeitherWeb, :controller
+  #import Plug.Conn, only: [send_resp: 3]
 
 
   @doc """
-  определяем тип запроса: история, прогноз, текущщее(с занемением в базу данных)
+  определяем тип запроса: история, прогноз
   """
   def get(conn, params) do
+
     type = params["type"]
     num = params["num"]
 
-    answer =
-      case type do
-        "history" ->
-          "#{num} дней назад температура была " <>
-          Weither.Api.get(:history, String.to_integer(num))
+    case type do
+      "history" ->
+        answer =
+          case NaiveDateTime.from_iso8601(num) do
+            {:ok, date} ->
+              (Weither.Api.get(:history, date)
+              |> Jason.encode!())
 
-        "forecast" ->
-          "через #{num} дней температура будет " <>
-            Weither.Api.get(:forecast, String.to_integer(num))
+            {:error, message} ->
+              Jason.encode!(message)
+          end
 
-        "current" ->
-          Weither.Api.get(:current)
-          
-      end
+        send_resp(conn, 200, answer)
 
-    render(conn, "weather.html", answer: answer)
+      "forecast" ->
+        answer = 
+          Weither.Api.get(:forecast, String.to_integer(num))
+          |> Jason.encode!()
+
+        send_resp(conn, 200, answer)
+    end
   end
+
 end
