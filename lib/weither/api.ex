@@ -4,8 +4,8 @@ defmodule Weither.Api do
   @doc """
   возвращает данные о погоде за переданный период из базы данных
   """
-  def get(:history, date) do
-    Weither.HttpRequest.request_history(date)
+  def get(:history, date_start, date_end) do
+    Weither.HttpRequest.request_history(date_start, date_end)
   end
 
   @doc """

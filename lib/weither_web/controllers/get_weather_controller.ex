@@ -1,6 +1,9 @@
 defmodule WeitherWeb.GetWeatherController do
   use WeitherWeb, :controller
 
+  plug Weither.Plugs.CheckGetWeatherController
+
+
   @doc """
   определяем тип запроса: история, прогноз
   """
@@ -11,15 +14,13 @@ defmodule WeitherWeb.GetWeatherController do
 
     case type do
       "history" ->
-        answer =
-          case NaiveDateTime.from_iso8601(num) do
-            {:ok, date} ->
-              (Weither.Api.get(:history, date)
-              |> Jason.encode!())
+        [date_start, date_end] = 
+          String.replace(num, "_", " ") 
+          |> String.split(",")
 
-            {:error, message} ->
-              Jason.encode!(message)
-          end
+        answer =
+          (Weither.Api.get(:history, date_start, date_end)
+          |> Jason.encode!())
 
         send_resp(conn, 200, answer)
 
@@ -31,5 +32,4 @@ defmodule WeitherWeb.GetWeatherController do
         send_resp(conn, 200, answer)
     end
   end
-
 end

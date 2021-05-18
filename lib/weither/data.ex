@@ -5,23 +5,23 @@ defmodule Weither.Data do
   import Ecto.Query, warn: false
 
   def list_weather do
-    Weither.Repo.all(Weither.Weither.Weather)
+    Weither.Repo.all(Weither.Scheme.Weather)
   end
 
   def create_data(attrs \\ %{}) do
-    %Weither.Weither.Weather{}
-    |> Weither.Weither.Weather.changeset(attrs)
+    %Weither.Scheme.Weather{}
+    |> Weither.Scheme.Weather.changeset(attrs)
     |> Weither.Repo.insert()
   end
 
-  def get_data(date) do
-     query = 
-       from(
-         Weither.Weither.Weather,
-         where: [time_answer: ^date],
-         select: [:temp, :pressure, :humidity, :wind_speed]
-       )
-     Weither.Repo.all(query)
-   end
+  def get_data(date_start, date_end) do
+    query = 
+      from(
+        p in Weither.Scheme.Weather,
+        where: p.time_answer >= ^date_start and p.time_answer <= ^date_end,
+        select: [p.time_answer, p.temp, p.pressure, p.humidity, p.wind_speed]
+      )
+    Weither.Repo.all(query)
+  end
 
 end

@@ -1,9 +1,9 @@
-defmodule Weither.Weither.Weather do
+defmodule Weither.Scheme.Weather do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "weathers" do
-    field :time_answer, :naive_datetime
+    field :time_answer, :naive_datetime, [unique: true]
     field :humidity, :integer
     field :pressure, :integer
     field :temp, :float

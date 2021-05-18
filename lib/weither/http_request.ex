@@ -6,10 +6,9 @@ defmodule Weither.HttpRequest do
   @doc """
   запрашивает погоду из архива на сервере
   """
-  @spec request_history(String.t()) :: list
-  def request_history(date) do
-    Weither.Data.get_data(date) 
-    |> Enum.map(fn x -> Map.take(x, [:humidity, :pressure, :temp, :wind_speed]) end)
+  @spec request_history(String.t(), String.t()) :: list
+  def request_history(date_start, date_end) do
+    Weither.Data.get_data(date_start, date_end)
   end
 
   @doc """
@@ -76,7 +75,8 @@ defmodule Weither.HttpRequest do
     } = weather["current"]
 
     time_answer =
-      DateTime.from_unix!(date) 
+      date
+      |> DateTime.from_unix!() 
       |> DateTime.to_naive()
 
     pressure = round(pressure * @pa_mmrs)

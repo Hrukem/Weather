@@ -4,10 +4,11 @@
   <body>
     <h2>Температура в Электростали</h2>
     <%= for weather <- @selectivly_data do %>
-      температура:    <%= weather.temp %> <br>
-      влажность:      <%= weather.humidity %> <br>
-      давление:       <%= weather.pressure %> <br>
-      скорость ветра: <%= weather.wind_speed %> <br> <br> 
+      дата:           <%= Enum.at(weather, 0) %> <br>
+      температура:    <%= Enum.at(weather, 1) %> <br>
+      влажность:      <%= Enum.at(weather, 2) %> <br>
+      давление:       <%= Enum.at(weather, 3) %> <br>
+      скорость ветра: <%= Enum.at(weather, 4) %> <br> <br> 
     <% end %>
 
     <%= button("Back", to: "/history", method: :get) %>
