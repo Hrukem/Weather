@@ -1,7 +1,7 @@
 defmodule WeitherWeb.GetWeatherController do
   use WeitherWeb, :controller
 
-  plug Weither.Plugs.CheckGetWeatherController
+  plug WeitherWeb.Plugs.CheckGetWeatherController
 
 
   @doc """
@@ -19,8 +19,8 @@ defmodule WeitherWeb.GetWeatherController do
           |> String.split(",")
 
         answer =
-          (Weither.Api.get(:history, date_start, date_end)
-          |> Jason.encode!())
+          Weither.Api.get(:history, date_start, date_end)
+          |> Jason.encode!()
 
         send_resp(conn, 200, answer)
 

@@ -1,7 +1,7 @@
 defmodule WeitherWeb.HistoryController do
   use WeitherWeb, :controller
 
-  plug Weither.Plugs.CheckHistoryController when action in [:show]
+  plug WeitherWeb.Plugs.CheckHistoryController when action in [:show]
 
   def index(conn, _params) do
     render(conn, "index.html")

@@ -5,14 +5,15 @@ defmodule Weither.Api do
   возвращает данные о погоде за переданный период из базы данных
   """
   def get(:history, date_start, date_end) do
-    Weither.HttpRequest.request_history(date_start, date_end)
+    Weither.HistoryFromDatabase.take_history(date_start, date_end)
   end
 
   @doc """
   возвращает прогноз погоды на 'num'-ный день от сегодняшней даты
   """
   def get(:forecast, num) do
-    Weither.HttpRequest.request_forecast(num)
+    Weither.ForecastTakeCache.take_forecast(num)
+#    Weither.HttpRequest.request_forecast(num)
   end
 
   @doc """
@@ -21,7 +22,7 @@ defmodule Weither.Api do
   """
   def get(:current) do
     case Weither.HttpRequest.request_current() do
-      {:ok, _x} -> :ok
+      :ok -> :ok
       {:error, message} ->
         Logger.warn("Error in HttpRequest.request_current(): #{inspect(message)}")
     end

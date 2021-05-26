@@ -4,10 +4,28 @@ defmodule Weither.Application do
   @moduledoc false
 
   use Application
-
   def start(_type, _args) do
-    HTTPoison.start
+    Vapor.load!([%Vapor.Provider.Dotenv{}])
 
+    providers = 
+      %Vapor.Provider.Env{
+        bindings: [
+          {:port, "PORT", map: &String.to_integer/1},
+          {:secret_key_base, "SECRET_KEY_BASE"},
+          {:secret_weather_api, "SECRET_WEATHER_API"}
+        ]
+      }
+
+    config = Vapor.load!(providers)
+
+    Application.put_env(
+      :weither, 
+      :secret_weather_api,
+      config.secret_weather_api
+    )
+
+    :ets.new(:forecast_caching, [:set, :public, :named_table])
+    
     children = [
       # Start the Ecto repository
       Weither.Repo,
@@ -16,7 +34,11 @@ defmodule Weither.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Weither.PubSub},
       # Start the Endpoint (http/https)
-      WeitherWeb.Endpoint,
+      {
+        WeitherWeb.Endpoint,
+        http: [port: config.port], 
+        secret_key_base: config.secret_key_base
+      },
       # Start a worker by calling: Weither.Worker.start_link(arg)
       # {Weither.Worker, arg}
       Weither.Scheduler
@@ -34,4 +56,5 @@ defmodule Weither.Application do
     WeitherWeb.Endpoint.config_change(changed, removed)
     :ok
   end
+
 end

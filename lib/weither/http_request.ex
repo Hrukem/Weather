@@ -1,67 +1,35 @@
 defmodule Weither.HttpRequest do
+  require Logger
 
   @pa_mmrs 0.750062
-  @request  "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely&appid=a227de41216dd4ea34ad99279b3f6688&units=metric"
+  @request  "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely&units=metric&appid="
 
   @doc """
-  запрашивает погоду из архива на сервере
-  """
-  @spec request_history(String.t(), String.t()) :: list
-  def request_history(date_start, date_end) do
-    Weither.Data.get_data(date_start, date_end)
-  end
-
-  @doc """
-  запрашивает прогноз погоды на num-ый день от сегодняшней даты
-  """
-  @spec request_forecast(integer) :: map | {atom, integer} | {atom, atom}
-  def request_forecast(num) do
-
-    case HTTPoison.get @request do
-      {:ok, answer_map} ->
-        case answer_map.status_code do
-          200 ->
-            with {:ok, weather} <- body_decode(answer_map.body) do
-              (weather["daily"] |> Enum.at(num))["temp"] 
-            end
-          _ ->
-            {:error, answer_map.status_code}
-        end
-
-      {:error, _x} ->
-        {:error, :error_server}    
-    end
-  end
-
-  @doc """
-  запрашивает прогноз погоды на текущий день
+  запрашивает состояние погоды на текущий день на момент запроса
+  полученые данные помещает в базу данных weather_dev
   """
   @spec request_current() :: {atom, atom} | {atom, integer}
   def request_current() do
+    case take_weather_from_websait() do
+      {:ok, weather} ->
+        weather
+        |> parse_map() 
+        |> put_database()
 
-    case HTTPoison.get @request do
-      {:ok, answer_map} ->
-        case answer_map.status_code do
-          200 ->
-            with {:ok, weather} <- body_decode(answer_map.body) do
-              parse_map(weather) 
-              |> put_database()
-            end
-          _ ->
-            {:error, answer_map.status_code}
-        end
+        :ok
 
-      {:error, _x} ->
-        {:error, :error_server}    
+      {:error, message} ->
+        {:error, message}
+
     end
   end
 
   defp put_database(weather_current) do
     case Weither.Data.create_data(weather_current) do
       {:ok, _x} ->
-        {:ok, :ok}
-      {:error, _x} ->
-        {:error, :error_database}
+        :ok
+      {:error, message} ->
+        Logger.error("Error in HttpRequest.put_database(): #{message}")
     end
   end
 
@@ -90,14 +58,22 @@ defmodule Weither.HttpRequest do
     }
   end
 
-  defp body_decode(body) do
-    case Jason.decode(body) do
-      {:ok, current_weather} ->
-        {:ok, current_weather}
+  def take_weather_from_websait() do
+    with {:ok, answer_map} <- HTTPoison.get(@request <> Application.get_env(:weither, :secret_weather_api)),
+         true              <- answer_map.status_code == 200,
+         {:ok, weather}    <- Jason.decode(answer_map.body) do
+      {:ok, weather}
 
-      {:error, _x} ->
+    else
+      {:error, %HTTPoison.Error{} = exception} ->
+        Logger.error "Error in HttpRequest.httpPoison_request(): #{Exception.message(exception)}"
+        {:error, :httpPoison_error}
+      false ->
+        Logger.error "Bad request in HttpRequest.take_weather_from_websait()"
+        {:error, :bad_request}
+      {:error, %Jason.DecodeError{} = exception} ->
+        Logger.error "Error in HttpRequest.body_decode(): #{Exception.message(exception)}"
         {:error, :bad_body}        
     end
   end
-
 end

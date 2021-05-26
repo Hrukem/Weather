@@ -35,7 +35,6 @@ defmodule WeitherWeb.Endpoint do
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :weither
   end
 
-  plug Weither.Plugs.CheckRouter
   plug Phoenix.LiveDashboard.RequestLogger,
     param_key: "request_logger",
     cookie_key: "request_logger"

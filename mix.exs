@@ -46,7 +46,8 @@ defmodule Weither.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:httpoison, "~> 1.8"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:vapor, "~> 0.10"}
     ]
   end
 

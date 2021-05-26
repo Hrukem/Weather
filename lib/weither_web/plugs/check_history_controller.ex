@@ -1,4 +1,4 @@
-defmodule Weither.Plugs.CheckHistoryController do
+defmodule WeitherWeb.Plugs.CheckHistoryController do
   import Plug.Conn
 
   def init(opts), do: opts

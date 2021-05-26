@@ -7,7 +7,7 @@ defmodule Weither.Scheme.Weather do
     field :humidity, :integer
     field :pressure, :integer
     field :temp, :float
-    field :wind_speed, :integer
+    field :wind_speed, :float
 
     timestamps()
   end

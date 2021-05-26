@@ -13,7 +13,7 @@ config :weither,
 # Configures the endpoint
 config :weither, WeitherWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "MrW8qsRA/Z1INsYLujWEG6LdDE7Tp4P5tU/n7CUijPPtfenvYrnxH4aYLm2Z+B5S",
+#  secret_key_base: "MrW8qsRA/Z1INsYLujWEG6LdDE7Tp4P5tU/n7CUijPPtfenvYrnxH4aYLm2Z+B5S",
   render_errors: [view: WeitherWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Weither.PubSub,
   live_view: [signing_salt: "gDf9iV5k"]

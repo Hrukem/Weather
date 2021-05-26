@@ -6,10 +6,22 @@ defmodule WeitherWeb.ForecastController do
   end
 
   def show(conn, %{"num_day" => num_day}) do
-    answer = Weither.Api.get(:forecast, String.to_integer(num_day))
-    IO.inspect(answer)
+    %{
+      "morn"  => morn,
+      "day"   => day,
+      "eve"   => eve,
+      "night" => night,
+      "min"   => min,
+      "max"   => max
+    } = Weither.Api.get(:forecast, String.to_integer(num_day))
 
-    render(conn, "show.html")
+    render(conn, "show.html", 
+      morn:  morn,
+      day:   day,
+      eve:   eve,
+      night: night,
+      min:   min,
+      max:   max
+    )
   end
-
 end

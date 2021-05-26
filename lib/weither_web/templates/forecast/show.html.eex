@@ -2,6 +2,14 @@
 <html>
   <body>
     <h3> Прогноз погоды в Электростали </h3> <br>
+    утро:         <%= @morn %> <br>
+    день:         <%= @day %>  <br>
+    вечер:        <%= @eve %>  <br>
+    ночь:         <%= @night %><br>
+    минимальная:  <%= @min %>  <br>
+    максимальная: <%= @max %>  <br>
+
+    <br><br><br><br><br><br>
 
     <%= button("Back", to: "/forecast", method: :get) %>
 

@@ -1,4 +1,4 @@
-defmodule Weither.Plugs.CheckGetWeatherController do
+defmodule WeitherWeb.Plugs.CheckGetWeatherController do
   import Plug.Conn
 
   @regex ~r/\d\d\d\d-\d\d-\d\d_\d\d:\d\d:\d\d,\d\d\d\d-\d\d-\d\d_\d\d:\d\d:\d\d/
