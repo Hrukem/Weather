@@ -6,7 +6,6 @@ defmodule WeitherWeb.Plugs.CheckGetWeatherController do
   def init(opts), do: opts
 
   def call(conn, _params) do
-
     with true <- Map.keys(conn.query_params) == ["num", "type"],
          true <- (conn.query_params["type"] == "history") and 
                    String.match?(conn.query_params["num"], @regex)

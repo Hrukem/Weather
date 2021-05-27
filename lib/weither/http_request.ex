@@ -8,7 +8,7 @@ defmodule Weither.HttpRequest do
   запрашивает состояние погоды на текущий день на момент запроса
   полученые данные помещает в базу данных weather_dev
   """
-  @spec request_current() :: {atom, atom} | {atom, integer}
+  @spec request_current() :: atom | {atom, atom}
   def request_current() do
     case take_weather_from_websait() do
       {:ok, weather} ->

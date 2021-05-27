@@ -36,7 +36,28 @@ defmodule WeitherWeb.Plugs.CheckHistoryController do
     start_period = concaten(year_s, month_s, day_s, hour_s, minute_s, second_s)
       end_period = concaten(year_e, month_e, day_e, hour_e, minute_e, second_e)
 
-    assign(conn, :period, [start_period, end_period])
+    #проверяем что введенные пользователем на сайте даты и периоды валидны
+    #и отправляем данные в history_controller
+    #если ошибка - отправляем сообщение об ошибке на страницу ввода периода дат
+    with {:ok, start_period_naive} <- NaiveDateTime.from_iso8601(start_period),
+         {:ok, end_period_naive}   <- NaiveDateTime.from_iso8601(end_period),
+         :lt  <- NaiveDateTime.compare(start_period_naive, end_period_naive) do
+      assign(conn, :period, [start_period, end_period])
+    else
+      {:error, :invalid_date} ->
+        send_message_error(conn, "Вы ввели несуществующую дату")
+      :gt ->
+        send_message_error(conn, "Вы указали начало периода позже конца периода")
+      :eq ->
+        send_message_error(conn, "Указанные начало и конец периода совпадают")
+    end
+  end
+
+  defp send_message_error(conn, message) do
+    conn 
+    |> Phoenix.Controller.put_flash(:error, "#{message}") 
+    |> Phoenix.Controller.redirect(to: "/history") 
+    |> halt()
   end
 
   defp check_zero(month, day, hour, minute, second) do
