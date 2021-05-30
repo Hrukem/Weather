@@ -30,6 +30,7 @@ defmodule Weither.HttpRequest do
         :ok
       {:error, message} ->
         Logger.error("Error in HttpRequest.put_database(): #{message}")
+        {:error, message}
     end
   end
 
@@ -66,8 +67,8 @@ defmodule Weither.HttpRequest do
 
     else
       {:error, %HTTPoison.Error{} = exception} ->
-        Logger.error "Error in HttpRequest.httpPoison_request(): #{Exception.message(exception)}"
-        {:error, :httpPoison_error}
+        Logger.error "Error in HttpRequest.take_weather_from_websait(): #{Exception.message(exception)}"
+        {:error, :httppoison_error}
       false ->
         Logger.error "Bad request in HttpRequest.take_weather_from_websait()"
         {:error, :bad_request}

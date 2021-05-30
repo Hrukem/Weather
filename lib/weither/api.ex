@@ -12,8 +12,7 @@ defmodule Weither.Api do
   возвращает прогноз погоды на 'num'-ный день от сегодняшней даты
   """
   def get(:forecast, num) do
-    Weither.ForecastTakeCache.take_forecast(num)
-#    Weither.HttpRequest.request_forecast(num)
+    Weither.Cache.Forecast.get_weather(num)
   end
 
   @doc """
@@ -22,9 +21,14 @@ defmodule Weither.Api do
   """
   def get(:current) do
     case Weither.HttpRequest.request_current() do
-      :ok -> :ok
+      :ok -> 
+        :ok
+
       {:error, message} ->
-        Logger.warn("Error in HttpRequest.request_current(): #{inspect(message)}")
+        Logger.error(
+          "Error in HttpRequest.request_current(): #{inspect(message)}"
+        )
+        {:error, message}
     end
   end
 end
