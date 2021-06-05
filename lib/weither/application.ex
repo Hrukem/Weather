@@ -5,7 +5,7 @@ defmodule Weither.Application do
 
   use Application
   def start(_type, _args) do
-    Vapor.load!([%Vapor.Provider.Dotenv{}])
+    Vapor.load!([%Vapor.Provider.Dotenv{overwrite: true}])
 
     providers = 
       %Vapor.Provider.Env{

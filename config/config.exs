@@ -21,7 +21,7 @@ config :weither, WeitherWeb.Endpoint,
 # Configures Quantum
 config :weither, Weither.Scheduler,
   jobs: [
-    {"0 */3 * * *", fn -> Weither.Api.get(:current) end},
+    {"0 */3 * * *", fn -> Weither.Api.get(:weather) end},
     {"1 0 * * *", fn -> Weither.Cache.Forecast.init() end}
   ]
 
@@ -33,6 +33,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+#часть запроса для модуля HttpRequest
+config :weither, request: "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely&units=metric&appid="
+
+config :exvcr, [global_mock: true]
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

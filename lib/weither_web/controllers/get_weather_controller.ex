@@ -9,6 +9,7 @@ defmodule WeitherWeb.GetWeatherController do
   или прогноз погоды на указанный день от текущего
   """
   def get(conn, params) do
+    IO.inspect(conn, label: "conn")
 
     type = params["type"]
     num = params["num"]

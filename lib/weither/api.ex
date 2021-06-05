@@ -19,14 +19,14 @@ defmodule Weither.Api do
   запрашивает данные о погоде на стороннем сайте на момент запроса,
   полученные данные помещает в базу данных
   """
-  def get(:current) do
-    case Weither.HttpRequest.request_current() do
+  def get(:weather) do
+    case Weither.HttpRequest.request_weather() do
       :ok -> 
         :ok
 
       {:error, message} ->
         Logger.error(
-          "Error in HttpRequest.request_current(): #{inspect(message)}"
+          "Error in HttpRequest.request_weather(): #{inspect(message)}"
         )
         {:error, message}
     end
