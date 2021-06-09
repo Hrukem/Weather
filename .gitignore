@@ -11,3 +11,4 @@ erl_crash.dump
 **/.env
 /assets/node_modules
 /fixture
+tags
