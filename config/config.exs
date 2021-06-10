@@ -33,10 +33,11 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :weither, :weather_api, HTTPoison
+
 #часть запроса для модуля HttpRequest
 config :weither, request: "https://api.openweathermap.org/data/2.5/onecall?lat=55.784445&lon=38.444849&exclude=alerts,hourly,minutely&units=metric&appid="
 
-config :exvcr, [global_mock: true]
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

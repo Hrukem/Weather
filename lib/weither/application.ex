@@ -5,27 +5,9 @@ defmodule Weither.Application do
 
   use Application
   def start(_type, _args) do
-    Vapor.load!([%Vapor.Provider.Dotenv{overwrite: true}])
+    config = vapor_start()
+    cache_forecast_start()
 
-    providers = 
-      %Vapor.Provider.Env{
-        bindings: [
-          {:port, "PORT", map: &String.to_integer/1},
-          {:secret_key_base, "SECRET_KEY_BASE"},
-          {:secret_weather_api, "SECRET_WEATHER_API"}
-        ]
-      }
-
-    config = Vapor.load!(providers)
-
-    Application.put_env(
-      :weither, 
-      :secret_weather_api,
-      config.secret_weather_api
-    )
-
-    :ets.new(:forecast_caching, [:set, :public, :named_table])
-    
     children = [
       # Start the Ecto repository
       Weither.Repo,
@@ -57,4 +39,32 @@ defmodule Weither.Application do
     :ok
   end
 
+  #reading environment variables
+  defp vapor_start() do
+    Vapor.load!([%Vapor.Provider.Dotenv{overwrite: true}])
+
+    providers = 
+      %Vapor.Provider.Env{
+        bindings: [
+          {:port, "PORT", map: &String.to_integer/1},
+          {:secret_key_base, "SECRET_KEY_BASE"},
+          {:secret_weather_api, "SECRET_WEATHER_API"}
+        ]
+      }
+
+    config = Vapor.load!(providers)
+
+    Application.put_env(
+      :weither, 
+      :secret_weather_api,
+      config.secret_weather_api
+    )
+
+    config
+  end
+  
+  defp cache_forecast_start() do
+    :ets.new(:forecast_caching, [:set, :public, :named_table])
+    Weither.Cache.Forecast.init()
+  end
 end

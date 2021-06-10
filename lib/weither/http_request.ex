@@ -3,14 +3,15 @@ defmodule Weither.HttpRequest do
 
   @pa_mmrs 0.750062
   @request Application.get_env(:weither, :request)  #смотри config/config.exs
+  @weather_api Application.get_env(:weither, :weather_api) #смoтри config/config.exs и config/test.exs
 
   @doc """
   запрашивает состояние погоды на текущий день на момент запроса
   полученые данные помещает в базу данных weather_dev
   """
-  @spec request_weather() :: atom | {atom, atom}
-  def request_weather() do
-    case take_weather_from_websait() do
+  @spec request_and_store_weather() :: atom | {atom, atom}
+  def request_and_store_weather() do
+    case take_weather_from_websaite() do
       {:ok, weather} ->
         weather
         |> parse_map() 
@@ -60,16 +61,24 @@ defmodule Weither.HttpRequest do
     }
   end
 
-  def take_weather_from_websait() do
-    with {:ok, %HTTPoison.Response{status_code: 200} = answer_map} <- HTTPoison.get(@request <> Application.get_env(:weither, :secret_weather_api)),
+  def take_weather_from_websaite() do
+    with {:ok, %HTTPoison.Response{status_code: 200} = answer_map} <- @weather_api.get(@request <> Application.get_env(:weither, :secret_weather_api)),
          {:ok, weather} <- Jason.decode(answer_map.body) do
       {:ok, weather}
 
     else
       {:error, %HTTPoison.Error{} = exception} ->
-        Logger.error "Error in HttpRequest.take_weather_from_websait(): #{Exception.message(exception)}"
+        Logger.error (
+          "Error in HttpRequest.take_weather_from_websait(): #{Exception.message(exception)}"
+        )
         {:error, :httppoison_error}
       {:ok, answer_map} -> 
+        case answer_map do
+          400 -> Logger.error "Bad request in module Weither.HttpRequest.take_weather_from_websaite()"
+          401 -> Logger.error "Unauthorized request in module Weither.HttpRequest.take_weather_from_websaite()"
+          403 -> Logger.error "Forbidden request in module Weither.HttpRequest.take_weather_from_websaite()"
+          500 -> Logger.error "Server Error in module Weither.HttpRequest.take_weather_from_websaite()"
+        end
         {:error, answer_map.status_code}
       {:error, %Jason.DecodeError{} = exception} ->
         Logger.error "Error in HttpRequest.body_decode(): #{Exception.message(exception)}"

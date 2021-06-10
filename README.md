@@ -31,6 +31,6 @@ Also, the first date must be earlier than the second, otherwise the request will
 >SECRET_WEATHER_API=zzzz  
 
 где хххх - номер порта на котором будет работать приложение  
-УУУУ - секретный ключ, его лучше сгенерировать с помощью команды mix gen.secret  
+yyyy - секретный ключ, его лучше сгенерировать с помощью команды mix gen.secret  
 zzzz - api-key, полученный при регистрации на сайте www.openweathermap.org  
 строки вводятся без кавычек 

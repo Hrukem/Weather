@@ -48,7 +48,7 @@ defmodule Weither.MixProject do
       {:httpoison, "~> 1.8"},
       {:quantum, "~> 3.0"},
       {:vapor, "~> 0.10"},
-      {:exvcr, "~> 0.11", only: :test}
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 

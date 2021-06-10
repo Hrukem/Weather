@@ -6,33 +6,43 @@ defmodule WeitherWeb.ForecastController do
   end
 
   def show(conn, %{"num_day" => num_day}) do
-    %{
-      "morn"  => morn,
-      "day"   => day,
-      "eve"   => eve,
-      "night" => night,
-      "min"   => min,
-      "max"   => max
-    } = Weither.Api.get(:forecast, String.to_integer(num_day))
+    case Weither.Api.get(:forecast, String.to_integer(num_day)) do
+      [] -> 
+        conn 
+        |> Phoenix.Controller.put_flash(:error, 
+           "Sorry, there is no data on the weather forecast. Try again later."
+           ) 
+        |> Phoenix.Controller.redirect(to: "/forecast") 
+        |> halt()
 
-    num_day =
-      case num_day do
-        "1" -> "1 день"
-        "2" -> "2 дня"
-        "3" -> "3 дня"
-        "4" -> "4 дня"
-        "5" -> "5 дней"
-        "6" -> "6 дней"
-        "7" -> "7 дней"
-      end
-    render(conn, "show.html", 
-      num_day: num_day,
-      morn:    morn,
-      day:     day,
-      eve:     eve,
-      night:   night,
-      min:     min,
-      max:     max
-    )
+      %{
+        "morn"  => morn,
+        "day"   => day,
+        "eve"   => eve,
+        "night" => night,
+        "min"   => min,
+        "max"   => max
+      } ->
+        num_day =
+          case num_day do
+            "1" -> "1 день"
+            "2" -> "2 дня"
+            "3" -> "3 дня"
+            "4" -> "4 дня"
+            "5" -> "5 дней"
+            "6" -> "6 дней"
+            "7" -> "7 дней"
+          end
+
+        render(conn, "show.html", 
+          num_day: num_day,
+          morn:    morn,
+          day:     day,
+          eve:     eve,
+          night:   night,
+          min:     min,
+          max:     max
+        )
+    end
   end
 end

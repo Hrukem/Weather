@@ -20,13 +20,13 @@ defmodule Weither.Api do
   полученные данные помещает в базу данных
   """
   def get(:weather) do
-    case Weither.HttpRequest.request_weather() do
+    case Weither.HttpRequest.request_and_store_weather() do
       :ok -> 
         :ok
 
       {:error, message} ->
         Logger.error(
-          "Error in HttpRequest.request_weather(): #{inspect(message)}"
+          "Error in Weither.HttpRequest.request_and_store_weather(): #{inspect(message)}"
         )
         {:error, message}
     end

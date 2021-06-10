@@ -7,7 +7,7 @@ defmodule WeitherWeb.Plugs.CheckGetWeatherController do
 
   def call(conn, _params) do
     with true <- Map.keys(conn.query_params) == ["num", "type"],
-         true <- chech_request(conn)
+         true <- check_request(conn)
     do
       conn
     else 
@@ -16,12 +16,16 @@ defmodule WeitherWeb.Plugs.CheckGetWeatherController do
     end
   end
 
-  defp chech_request(conn) do
-    (conn.query_params["type"] == "history") and 
-      String.match?(conn.query_params["num"], @regex)
-        or
-          (conn.query_params["type"] == "forecast" and 
-            String.match?(conn.query_params["num"], ~r/\d/) and
-              String.to_integer(conn.query_params["num"]) in 0..7)
+  defp check_request(%Plug.Conn{query_params: %{"type" => "history"}} = conn) do
+    String.match?(conn.query_params["num"], @regex)
+  end
+
+  defp check_request(%Plug.Conn{query_params: %{"type" => "forecast"}} = conn) do
+    String.match?(conn.query_params["num"], ~r/\d/) and
+      String.to_integer(conn.query_params["num"]) in 1..7
+  end
+
+  defp check_request(%Plug.Conn{query_params: _}) do
+    false
   end
 end

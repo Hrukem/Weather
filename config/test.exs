@@ -18,5 +18,8 @@ config :weither, WeitherWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+#config :weither, :weather_api, Weither.Weither.Apitest
+config :weither, :weather_api, Support.Apitest
+
 # Print only warnings and errors during test
 config :logger, level: :warn
