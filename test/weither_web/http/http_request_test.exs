@@ -1,4 +1,4 @@
-defmodule WeitherWeb.HttpTest do
+defmodule WeitherWeb.HttpRequestTest do
   use ExUnit.Case, async: false
   use Weither.DataCase
 

@@ -8,10 +8,7 @@ defmodule WeitherWeb.GetWeatherController do
   в зависимости от внешнего запроса возвращает историю погоды за указанный период
   или прогноз погоды на указанный день от текущего
   """
-  def get(conn, params) do
-
-    type = params["type"]
-    num = params["num"]
+  def get(%Plug.Conn{params: %{"num" => num, "type" => type}} = conn, _) do
 
     case type do
       "history" ->

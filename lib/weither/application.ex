@@ -63,7 +63,7 @@ defmodule Weither.Application do
     config
   end
   
-  defp cache_forecast_start() do
+  def cache_forecast_start() do
     :ets.new(:forecast_caching, [:set, :public, :named_table])
     Weither.Cache.Forecast.init()
   end
