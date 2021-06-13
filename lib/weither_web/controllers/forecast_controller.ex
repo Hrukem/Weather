@@ -15,34 +15,24 @@ defmodule WeitherWeb.ForecastController do
         |> Phoenix.Controller.redirect(to: "/forecast") 
         |> halt()
 
-      %{
-        "morn"  => morn,
-        "day"   => day,
-        "eve"   => eve,
-        "night" => night,
-        "min"   => min,
-        "max"   => max
-      } ->
-        num_day =
-          case num_day do
-            "1" -> "1 день"
-            "2" -> "2 дня"
-            "3" -> "3 дня"
-            "4" -> "4 дня"
-            "5" -> "5 дней"
-            "6" -> "6 дней"
-            "7" -> "7 дней"
-          end
+      %{} = weather ->
+        num_day = get_num_day(num_day)
 
         render(conn, "show.html", 
           num_day: num_day,
-          morn:    morn,
-          day:     day,
-          eve:     eve,
-          night:   night,
-          min:     min,
-          max:     max
+          morn:    Map.get(weather, "morn"),
+          day:     Map.get(weather, "day"),
+          eve:     Map.get(weather, "eve"),
+          night:   Map.get(weather, "night"),
+          min:     Map.get(weather, "min"),
+          max:     Map.get(weather, "max")
         )
     end
   end
+  
+  defp get_num_day(num_day) when num_day == "1", do: "1 день"
+
+  defp get_num_day(num_day) when num_day in ["2", "3", "4"], do: "#{num_day} дня"
+
+  defp get_num_day(num_day) when num_day in ["5", "6", "7"], do: "#{num_day} дней"
 end

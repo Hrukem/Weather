@@ -5,8 +5,8 @@ defmodule Weither.Application do
 
   use Application
   def start(_type, _args) do
-    config = vapor_start()
-    cache_forecast_start()
+    config = read_environment_variables()
+    cache_forecast_init()
 
     children = [
       # Start the Ecto repository
@@ -39,8 +39,13 @@ defmodule Weither.Application do
     :ok
   end
 
-  #reading environment variables
-  defp vapor_start() do
+  def cache_forecast_init() do
+    :ets.new(:forecast_caching, [:set, :public, :named_table])
+    Weither.Cache.Forecast.init()
+  end
+  
+  # reading environment variables
+  defp read_environment_variables() do
     Vapor.load!([%Vapor.Provider.Dotenv{overwrite: true}])
 
     providers = 
@@ -61,10 +66,5 @@ defmodule Weither.Application do
     )
 
     config
-  end
-  
-  def cache_forecast_start() do
-    :ets.new(:forecast_caching, [:set, :public, :named_table])
-    Weither.Cache.Forecast.init()
   end
 end

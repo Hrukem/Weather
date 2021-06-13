@@ -7,7 +7,7 @@ defmodule Weither.Cache.Forecast do
   обновляется 1 раз в день в 00:00:01
   """
   def init() do
-    case Weither.HttpRequest.take_weather_from_websaite() do
+    case Weither.HttpRequest.weather_request() do
       {:ok, weather_all} ->
         [_h | weather_daily] = weather_all["daily"]
         put_ets(weather_daily, 1)

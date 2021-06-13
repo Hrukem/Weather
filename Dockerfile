@@ -50,8 +50,8 @@ USER nobody:nobody
 
 COPY --from=build --chown=nobody:nobody app/_build/prod/rel/weither ./
 
-EXPOSE 4000
-EXPOSE 5432
+# EXPOSE 4002
+# EXPOSE 5432
 
 ENV HOME=/app
 

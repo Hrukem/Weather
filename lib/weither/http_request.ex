@@ -2,16 +2,16 @@ defmodule Weither.HttpRequest do
   require Logger
 
   @pa_mmrs 0.750062
-  @request Application.get_env(:weither, :request)  #смотри config/config.exs
-  @weather_api Application.get_env(:weither, :weather_api) #смoтри config/config.exs и config/test.exs
+  @request Application.get_env(:weither, :request)  # смотри config/config.exs
+  @weather_api Application.get_env(:weither, :weather_api) # смoтри config/config.exs и config/test.exs
 
   @doc """
   запрашивает состояние погоды на текущий день на момент запроса
   полученые данные помещает в базу данных weather_dev
   """
-  @spec request_and_store_weather() :: atom | {atom, atom}
+  @spec request_and_store_weather() :: :ok | {:error, %{}}
   def request_and_store_weather() do
-    case take_weather_from_websaite() do
+    case weather_request() do
       {:ok, weather} ->
         weather
         |> parse_map() 
@@ -49,7 +49,7 @@ defmodule Weither.HttpRequest do
       |> DateTime.from_unix!() 
       |> DateTime.to_naive()
 
-    #преобразуем давление в милиметры ртутного столба
+    # преобразуем давление в милиметры ртутного столба
     pressure = round(pressure * @pa_mmrs)
 
     %{
@@ -61,7 +61,7 @@ defmodule Weither.HttpRequest do
     }
   end
 
-  def take_weather_from_websaite() do
+  def weather_request() do
     with {:ok, %HTTPoison.Response{status_code: 200} = answer_map} <- @weather_api.get(@request <> Application.get_env(:weither, :secret_weather_api)),
          {:ok, weather} <- Jason.decode(answer_map.body) do
       {:ok, weather}
