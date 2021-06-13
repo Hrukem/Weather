@@ -13,8 +13,9 @@ RUN mix local.hex --force && \
 # set build ENV
 
 ENV MIX_ENV=prod
-ENV SECRET_KEY_BASE=1111
-ENV DATABASE_URL=ecto://postgres:postgres@host.docker.internal:5432/weither_dev
+ENV DATABASE_URL=ecto://postgres:postgres@127.0.0.1:5432/weither_dev
+#ENV SECRET_KEY_BASE=1111
+#ENV DATABASE_URL=ecto://postgres:postgres@host.docker.internal:5432/weither_dev
 #ENV DATABASE_URL=ecto://postgres:postgres@host.docker.internal/weither_dev
 
 # install mix dependencies
