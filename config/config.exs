@@ -21,8 +21,8 @@ config :weither, WeitherWeb.Endpoint,
 # Configures Quantum
 config :weither, Weither.Scheduler,
   jobs: [
-    {"0 */3 * * *", fn -> Weither.Api.get(:weather) end},
-    {"1 0 * * *", fn -> Weither.Cache.Forecast.init() end}
+    {"0 */3 * * *", fn -> {Weither.Api, :get, [:weather]} end},
+    {"1 0 * * *", fn -> {Weither.Cache.Forecast, :init, []} end}
   ]
 
 # Configures Elixir's Logger
