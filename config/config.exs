@@ -7,8 +7,8 @@
 # General application configuration
 use Mix.Config
 
-#config :weither,
-#  ecto_repos: [Weither.Repo]
+config :weither,
+  ecto_repos: [Weither.Repo]
   
 config :weither, Weither.Repo,
   username: "postgres",
