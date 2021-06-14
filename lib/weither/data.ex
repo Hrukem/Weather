@@ -19,7 +19,8 @@ defmodule Weither.Data do
       from(
         p in Weither.Scheme.Weather,
         where: p.time_answer >= ^date_start and p.time_answer <= ^date_end,
-        select: [p.time_answer, p.temp, p.pressure, p.humidity, p.wind_speed]
+        select: [p.time_answer, p.temp, p.pressure, p.humidity, p.wind_speed],
+        limit: 60
       )
     Weither.Repo.all(query)
   end
