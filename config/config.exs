@@ -7,8 +7,16 @@
 # General application configuration
 use Mix.Config
 
-config :weither,
-  ecto_repos: [Weither.Repo]
+#config :weither,
+#  ecto_repos: [Weither.Repo]
+  
+config :weither, Weither.Repo,
+  username: "postgres",
+  password: "postgres",
+  database: "weither_dev",
+  hostname: "localhost",
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10
 
 # Configures the endpoint
 config :weither, WeitherWeb.Endpoint,
