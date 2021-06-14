@@ -46,7 +46,7 @@ defmodule Weither.Application do
   
   # reading environment variables
   defp read_environment_variables() do
-    Vapor.load!([%Vapor.Provider.Dotenv{overwrite: true}])
+    Vapor.load!([%Vapor.Provider.Dotenv{}])
 
     providers = 
       %Vapor.Provider.Env{
@@ -62,7 +62,7 @@ defmodule Weither.Application do
     Application.put_env(
       :weither, 
       :secret_weather_api,
-      config.secret_weather_api |> String.to_integer()
+      config.secret_weather_api
     )
 
     config
