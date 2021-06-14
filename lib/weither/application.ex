@@ -62,7 +62,7 @@ defmodule Weither.Application do
     Application.put_env(
       :weither, 
       :secret_weather_api,
-      config.secret_weather_api
+      config.secret_weather_api |> String.to_integer()
     )
 
     config
