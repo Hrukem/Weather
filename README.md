@@ -20,17 +20,19 @@ Important: months, days, hours, minutes, seconds must be specified in 2 digits. 
 then enter 02, etc.  
 Also, the first date must be earlier than the second, otherwise the request will not be accepted.
 
-Для запуска сайта на локальном компьютере:  
-- скопируйте сайт с git репозитория на свой компьютер
-- запустите команду mix deps.get
-- запустите команды mix ecto.create; mix ecto.migrate
-- создайте в корневой папке (там, где расположен файл mix.exs) файл .env
-Данный файл должен содержать следующие строки:
+To run the site on the local computer:
+- copy the site from the git repository to your computer
+- run the *mix deps.get* command
+- run the *mix ecto.create; mix ecto.migrate* commands
+- create in the root folder (where the file is located mix.exe) **.env** file
+
+This file should contain the following lines:
+
 >PORT=xxxx  
 >SECRET_KEY_BASE=yyyy  
 >SECRET_WEATHER_API=zzzz  
 
-где хххх - номер порта на котором будет работать приложение  
-yyyy - секретный ключ, его лучше сгенерировать с помощью команды mix gen.secret  
-zzzz - api-key, полученный при регистрации на сайте www.openweathermap.org  
-строки вводятся без кавычек 
+where хххх - the port number on which the application will run  
+yyyy - the secret key, it is better to generate it using the command *mix gen.secret*  
+zzzz - api-key, received when registering on the site www.openweathermap.org  
+strings are entered without quotation marks  
