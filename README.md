@@ -26,7 +26,7 @@ To run the site on the local computer:
 - run the *mix ecto.create; mix ecto.migrate* commands
 - create in the root folder (where the file is located mix.exe) **.env** file
 
-This file should contain the following lines:
+This file should contain the following lines (strings are entered without quotation marks):  
 
 >PORT=xxxx  
 >SECRET_KEY_BASE=yyyy  
@@ -35,4 +35,10 @@ This file should contain the following lines:
 where хххх - the port number on which the application will run  
 yyyy - the secret key, it is better to generate it using the command *mix gen.secret*  
 zzzz - api-key, received when registering on the site www.openweathermap.org  
-strings are entered without quotation marks  
+
+- run the *mix compile* command  
+- run the *mix phx.server* or *iex -S mix phx.server* commands
+  if you run the *iex -S mix phx.server* command, you will be able to run any function of the program  
+- after the program starts, enter the address in the search bar of the browser
+  **http://localhost:xxxx** where xxxx - number port specified in **.env** file (see above)  
+The start page of the site should open in the browser 
