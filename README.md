@@ -37,7 +37,7 @@ yyyy - the secret key, it is better to generate it using the command *mix gen.se
 zzzz - api-key, received when registering on the site www.openweathermap.org  
 
 - run the *mix compile* command  
-- run the *mix phx.server* or *iex -S mix phx.server* commands
+- run the *mix phx.server* or *iex -S mix phx.server* commands  
   if you run the *iex -S mix phx.server* command, you will be able to run any function of the program  
 - after the program starts, enter the address in the search bar of the browser
   **http://localhost:xxxx** where xxxx - number port specified in **.env** file (see above)  
