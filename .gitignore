@@ -9,5 +9,5 @@ erl_crash.dump
 # /config/*.secret.exs
 .elixir_ls/
 **/.env
-# /assets/node_modules
+/assets/node_modules
 tags
