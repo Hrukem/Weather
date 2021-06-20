@@ -10,7 +10,14 @@ defmodule Weither.Application do
 
     children = [
       # Start the Ecto repository
-      Weither.Repo,
+      {
+        Weither.Repo,
+        username: config.username_repo,
+        password: config.password_repo,
+        database: config.database_repo,
+        hostname: config.hostname_repo,
+        pool_size: config.pool_size
+      },
       # Start the Telemetry supervisor
       WeitherWeb.Telemetry,
       # Start the PubSub system
@@ -53,7 +60,13 @@ defmodule Weither.Application do
         bindings: [
           {:port, "PORT", map: &String.to_integer/1},
           {:secret_key_base, "SECRET_KEY_BASE"},
-          {:secret_weather_api, "SECRET_WEATHER_API"}
+          {:secret_weather_api, "SECRET_WEATHER_API"},
+          {:username_repo, "USERNAME_REPO"},
+          {:password_repo, "PASSWORD_REPO"},
+          {:database_repo, "DATABASE_REPO"},
+#          {:hostname_repo, "HOSTNAME_REPO", map: &String.to_integer/1},
+          {:hostname_repo, "HOSTNAME_REPO"},
+          {:pool_size, "POOL_SIZE", map: &String.to_integer/1}
         ]
       }
 

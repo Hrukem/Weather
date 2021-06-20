@@ -10,13 +10,13 @@ use Mix.Config
 config :weither,
   ecto_repos: [Weither.Repo]
   
-config :weither, Weither.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "weither_dev",
-  hostname: "172.17.0.2",
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
+#config :weither, Weither.Repo,
+#  username: "postgres",
+#  password: "postgres",
+#  database: "weither_dev",
+#  hostname: "172.17.0.2",
+#  show_sensitive_data_on_connection_error: true,
+#  pool_size: 10
 
 # Configures the endpoint
 config :weither, WeitherWeb.Endpoint,

@@ -1,45 +1,17 @@
  <!DOCTYPE html>
  <html>
    <body>
+     <br><br>
      <h2> Сайт для ознакомления с погодой в Электростали <br>
        Можно узнать историю погоды за прошедшее время либо прогноз погоды на 7 дней
        <br><br><br>
      </h2>
      <h3> <%=link("История погоды", to: "/history") %> </h3>
+     Данные об истории погоды начинаются с момента старта сайта - 14.06.21.<br>
+     Количество выводимых данных ограничено 60 значениями.
+     <br><br><br><br>
      <h3> <%=link("Прогноз погоды", to: "/forecast") %> </h3>
+     Прогноз погоды на 7 дней от сегодняшней даты.
        <br><br><br>
    </body>
-    <section class="row">
-      <article class="column">
-        <h2>Resources</h2>
-        <ul>
-          <li>
-            <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix">Source</a>
-          </li>
-          <li>
-            <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-          </li>
-        </ul>
-      </article>
-      <article class="column">
-        <h2>Help</h2>
-        <ul>
-          <li>
-            <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-          </li>
-          <li>
-            <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-          </li>
-          <li>
-            <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-          </li>
-          <li>
-            <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-          </li>
-        </ul>
-      </article>
-    </section>
  </html>
