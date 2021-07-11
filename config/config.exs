@@ -28,7 +28,7 @@ config :weither, WeitherWeb.Endpoint,
 # Configures Quantum
 config :weither, Weither.Scheduler,
   jobs: [
-    {"0 */3 * * *", {Weither.Api, :get, [:weather]} },
+    {"2 */3 * * *", {Weither.Api, :get, [:weather]} },
     {"1 0 * * *", {Weither.Cache.Forecast, :init, []} }
   ]
 
